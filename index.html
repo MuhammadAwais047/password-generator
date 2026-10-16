@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>PassForge — Secure Password Generator</title>
+  <meta name="description" content="Generate cryptographically secure passwords in your browser. Nothing is ever sent or stored — powered by the Web Crypto API." />
+  <meta property="og:title" content="PassForge — Secure Password Generator" />
+  <meta property="og:description" content="Cryptographically secure passwords, generated 100% offline in your browser." />
+  <meta property="og:type" content="website" />
+  <meta name="theme-color" content="#0a0f0d" />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%94%90%3C/text%3E%3C/svg%3E" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <a class="skip-link" href="#app">Skip to generator</a>
+
+  <main class="app" id="app">
+    <header class="brand">
+      <h1>🔐 Pass<span>Forge</span></h1>
+      <p class="tagline">Cryptographically secure passwords, forged in your browser.<br>Nothing is sent, saved or seen — ever.</p>
+    </header>
+
+    <section class="card" aria-label="Password generator">
+      <!-- Password display -->
+      <div class="pw-box">
+        <output id="pw" class="pw" aria-live="polite" aria-label="Generated password"></output>
+        <button id="copy-btn" class="icon-btn" type="button" aria-label="Copy password to clipboard" title="Copy">
+          <svg id="icon-copy" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+          <svg id="icon-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="is-hidden"><path d="M20 6L9 17l-5-5"/></svg>
+        </button>
+      </div>
+
+      <!-- Strength meter -->
+      <div class="strength">
+        <div class="strength-head">
+          <span id="strength-label" class="strength-label">—</span>
+          <span id="entropy" class="entropy"></span>
+        </div>
+        <div class="strength-track" role="img" aria-label="Password strength">
+          <div id="strength-bar" class="strength-bar"></div>
+        </div>
+        <p id="crack-time" class="crack-time"></p>
+      </div>
+
+      <button id="regen" class="btn-primary" type="button">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12a9 9 0 1 1-2.64-6.36"/><path d="M21 3v6h-6"/></svg>
+        Regenerate
+      </button>
+
+      <!-- Options -->
+      <div class="options">
+        <div class="opt-row length-row">
+          <label for="length">Password length</label>
+          <span id="length-val" class="length-val">16</span>
+          <input id="length" type="range" min="4" max="64" value="16" step="1" aria-describedby="length-val" />
+        </div>
+
+        <fieldset class="charsets">
+          <legend class="sr-only">Character sets to include</legend>
+
+          <label class="opt">
+            <input type="checkbox" id="opt-upper" checked />
+            <span class="box" aria-hidden="true"></span>
+            <span class="opt-name">Uppercase</span>
+            <span class="opt-samples">A–Z</span>
+          </label>
+
+          <label class="opt">
+            <input type="checkbox" id="opt-lower" checked />
+            <span class="box" aria-hidden="true"></span>
+            <span class="opt-name">Lowercase</span>
+            <span class="opt-samples">a–z</span>
+          </label>
+
+          <label class="opt">
+            <input type="checkbox" id="opt-num" checked />
+            <span class="box" aria-hidden="true"></span>
+            <span class="opt-name">Numbers</span>
+            <span class="opt-samples">0–9</span>
+          </label>
+
+          <label class="opt">
+            <input type="checkbox" id="opt-sym" checked />
+            <span class="box" aria-hidden="true"></span>
+            <span class="opt-name">Symbols</span>
+            <span class="opt-samples">!@#$%…</span>
+          </label>
+
+          <label class="opt">
+            <input type="checkbox" id="opt-no-ambig" />
+            <span class="box" aria-hidden="true"></span>
+            <span class="opt-name">Exclude ambiguous</span>
+            <span class="opt-samples">no 0 O 1 l I</span>
+          </label>
+        </fieldset>
+
+        <p id="warn" class="warn" hidden></p>
+      </div>
+    </section>
+
+    <!-- History -->
+    <section class="history" aria-label="Recently generated passwords">
+      <h2>Session history <span class="hint">(this tab only — never stored)</span></h2>
+      <ul id="history" class="history-list"></ul>
+      <p id="history-empty" class="history-empty">Generated passwords will appear here until you close the tab.</p>
+    </section>
+
+    <footer class="foot">
+      <p>Built with the Web Crypto API (<code>crypto.getRandomValues</code>) — generation happens entirely on your device.</p>
+      <p>© <span id="year"></span> <a href="https://github.com/MuhammadAwais047" target="_blank" rel="noopener noreferrer">Muhammad Awais</a> · <a href="https://github.com/MuhammadAwais047/password-generator" target="_blank" rel="noopener noreferrer">Source</a></p>
+    </footer>
+  </main>
+
+  <script src="app.js"></script>
+</body>
+</html>
